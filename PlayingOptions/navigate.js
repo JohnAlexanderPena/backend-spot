@@ -26,7 +26,8 @@ router.post("/pause", (req, res) => {
     } else {
       res.send({
         status: 400,
-        message: "There was an error completing you request, please try again.",
+        message:
+          "There was an error completing your request, please try again.",
       });
     }
   });
