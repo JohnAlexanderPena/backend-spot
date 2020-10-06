@@ -5,12 +5,7 @@ var request = require("request"); // "Request" library
 
 const router = express.Router();
 
-var client_id = process.env.CLIENT_ID; // Your client id
-var client_secret = process.env.CLIENT_SECRET; // Your secret
-var redirect_uri = process.env.REDIRECT_URI; // Your redirect uri
-
 router.post("/pause", (req, res) => {
-  console.log(req.headers.token);
   var options = {
     url: "https://api.spotify.com/v1/me/player/pause",
     headers: {
@@ -19,7 +14,6 @@ router.post("/pause", (req, res) => {
     json: true,
   };
 
-  // use the access token to access the Spotify Web API
   request.put(options, function (error, response, body) {
     if (response.statusCode === 204) {
       res.send({ status: 200, message: "Paused" });
@@ -33,4 +27,74 @@ router.post("/pause", (req, res) => {
   });
 });
 
-module.exports = router;
+router.post("/play", (req, res) => {
+  var options = {
+    url: "https://api.spotify.com/v1/me/player/play",
+    headers: {
+      Authorization: "Bearer " + req.headers.token,
+    },
+    json: true,
+  };
+
+  request.put(options, function (error, response, body) {
+    if (response.statusCode === 204) {
+      res.send({ status: 200, message: "Playing" });
+    } else {
+      res.send({
+        status: 400,
+        message:
+          "There was an error completing your request, please try again.",
+      });
+    }
+  });
+});
+
+router.post("/next", (req, res) => {
+  var options = {
+    url: "https://api.spotify.com/v1/me/player/next",
+    headers: {
+      Authorization: "Bearer " + req.headers.token,
+    },
+    json: true,
+  };
+
+  request.post(options, function (error, response, body) {
+    if (response.statusCode === 204) {
+      res.send({ status: 200, message: "Next Song" });
+    } else {
+      res.send({
+        status: 400,
+        message:
+          "There was an error completing your request, please try again.",
+      });
+    }
+  });
+});
+
+router.post("/back", (req, res) => {
+  var options = {
+    url: "https://api.spotify.com/v1/me/player/previous",
+    headers: {
+      Authorization: "Bearer " + req.headers.token,
+    },
+    json: true,
+  };
+
+  request.post(options, function (error, response, body) {
+    if (response.statusCode === 204) {
+      res.send({ status: 200, message: "Previous Song" });
+    } else {
+      res.send({
+        status: 400,
+        message:
+          "There was an error completing your request, please try again.",
+      });
+    }
+  });
+});
+
+router.checkTest = (a, b) => {
+  return a + b;
+};
+
+https: module.exports = router;
