@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 
 var request = require("request"); // "Request" library
+const { response } = require("express");
 
 const router = express.Router();
 
@@ -60,6 +61,7 @@ router.post("/next", (req, res) => {
 
   request.post(options, function (error, response, body) {
     if (response.statusCode === 204) {
+      console.log(response);
       res.send({ status: 200, message: "Next Song" });
     } else {
       res.send({
@@ -83,6 +85,32 @@ router.post("/back", (req, res) => {
   request.post(options, function (error, response, body) {
     if (response.statusCode === 204) {
       res.send({ status: 200, message: "Previous Song" });
+    } else {
+      res.send({
+        status: 400,
+        message:
+          "There was an error completing your request, please try again.",
+      });
+    }
+  });
+});
+
+router.post("/currentDevicePlaying", (req, res) => {
+  var options = {
+    url: "https://api.spotify.com/v1/me/player/devices",
+    headers: {
+      Authorization: "Bearer " + req.headers.token,
+    },
+    json: true,
+  };
+
+  request.get(options, function (error, response, body) {
+    if (response.statusCode === 200) {
+      res.send({
+        status: 200,
+        message: "Current Device Playing",
+        deviceInfo: response.body.devices,
+      });
     } else {
       res.send({
         status: 400,
