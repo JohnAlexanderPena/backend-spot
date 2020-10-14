@@ -142,7 +142,7 @@ app.get("/callback", function (req, res) {
 
 app.get("/refresh_token", function (req, res) {
   // requesting access token from refresh token
-  var refresh_token = req.query.refresh_token;
+  // var refresh_token = req.headers.token;
   var authOptions = {
     url: "https://accounts.spotify.com/api/token",
     headers: {
@@ -152,12 +152,14 @@ app.get("/refresh_token", function (req, res) {
     },
     form: {
       grant_type: "refresh_token",
-      refresh_token: refresh_token,
+      refresh_token: req.headers.token,
     },
     json: true,
   };
 
+  console.log(authOptions);
   request.post(authOptions, function (error, response, body) {
+    console.log("return token");
     if (!error && response.statusCode === 200) {
       var access_token = body.access_token;
       res.send({
