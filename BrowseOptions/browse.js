@@ -23,7 +23,6 @@ router.get("/getCategories", (req, res) => {
   };
 
   request.get(options, (error, response, body) => {
-    console.log(response.body);
     if (response.statusCode === 200) {
       res.send({ status: 200, data: response.body });
     } else {
