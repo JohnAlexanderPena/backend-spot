@@ -13,6 +13,7 @@ var client_secret = process.env.CLIENT_SECRET; // Your secret
 var redirect_uri = process.env.REDIRECT_URI; // Your redirect uri
 
 var navigateRouter = require("./PlayingOptions/navigate");
+var browseRouter = require("./BrowseOptions/browse");
 
 /**
  * Generates a random string containing numbers and letters
@@ -52,6 +53,7 @@ app
 // });
 
 app.use("/player", navigateRouter);
+app.use("/browse", browseRouter);
 
 app.get("/login", function (req, res) {
   var state = generateRandomString(16);

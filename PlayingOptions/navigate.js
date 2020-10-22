@@ -96,6 +96,7 @@ router.post("/back", (req, res) => {
 });
 
 router.post("/currentDevicePlaying", (req, res) => {
+  // console.log(req.headers.token);
   var options = {
     url: "https://api.spotify.com/v1/me/player/devices",
     headers: {
