@@ -35,4 +35,26 @@ router.get("/getCategories", (req, res) => {
   });
 });
 
+router.get("/getTopArtists", (req, res) => {
+  var options = {
+    url: "https://api.spotify.com/v1/me/top/artists",
+    headers: {
+      Authorization: req.headers.token,
+    },
+    json: true,
+  };
+  request.get(options, (error, response, body) => {
+    if (response.statusCode === 200) {
+      res.send({ status: 200, data: response.body });
+    } else {
+      res.send({
+        status: 400,
+        response,
+        message:
+          "There was an error completing your request, please try again.",
+      });
+    }
+  });
+});
+
 module.exports = router;
