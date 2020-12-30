@@ -59,7 +59,7 @@ router.get("/getTopArtists", (req, res) => {
 
 router.get("/recommendations", (req, res) => {
   var options = {
-    url: "https://api.spotify.com/v1/browse/new-releases?limit=10",
+    url: "https://api.spotify.com/v1/browse/new-releases?limit=20",
     headers: {
       Authorization: req.headers.token,
     },
